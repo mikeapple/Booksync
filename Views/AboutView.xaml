@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    xmlns:ext="clr-namespace:BookSync.Extensions"
+    x:Class="BookSync.Views.AboutView">
+<ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" />
+ </ContentPage.Padding>
+    <ContentPage.Content>       
+            <Grid RowSpacing="0" ColumnSpacing="0" Grid.Row="0" HorizontalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.Padding>
+                    <OnPlatform x:TypeArguments="Thickness"
+                        iOS="10,5"
+                        Android="10,5"
+                        WinPhone="20,25">
+                    </OnPlatform>
+                </Grid.Padding>
+
+                <Frame HasShadow="false" Grid.Row="0" BackgroundColor="#1F6CBC">
+                    <Frame.Padding>
+                        <OnPlatform x:TypeArguments="Thickness"
+                            iOS="10,5"
+                            Android="10,5"
+                            WinPhone="20,25">
+                        </OnPlatform>
+                    </Frame.Padding>
+                
+                    <controls:CircleImage Grid.Row="0"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        BorderColor="#D32F2F" 
+                        Aspect="AspectFill" BorderThickness="0"
+                        Source="https://graph.facebook.com/670766839/picture?width=100">
+
+                        <controls:CircleImage.WidthRequest>
+                          <OnPlatform x:TypeArguments="x:Double"
+                            iOS="55"
+                            Android="55"
+                            WinPhone="75">
+                            </OnPlatform>
+                         </controls:CircleImage.WidthRequest>
+                        <controls:CircleImage.HeightRequest>
+                          <OnPlatform x:TypeArguments="x:Double"
+                            iOS="55"
+                            Android="55"
+                            WinPhone="75">
+                            </OnPlatform>
+                         </controls:CircleImage.HeightRequest>
+                    </controls:CircleImage>
+                </Frame>
+
+                <Label Grid.Row="1" FontSize="Small" Text="Developed by Mikeapple Solutions Ltd" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+
+                <Label Grid.Row="2" FontSize="Small" Text="This program is provided 'as is' without warranties of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction. In no event will any copyright holder be liable to you for damages, including any general, special, incidental or consequential damages arising out of the use or inability to use the program."></Label>
+
+                <Button Grid.Row="3" x:Name="CloseButton" Text="Close" Command="{Binding CloseCommand}"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ext="clr-namespace:BookSync.Extensions"
+    xmlns:conv="clr-namespace:BookSync.Converters"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    x:Class="BookSync.Views.ContactsToSyncView" Title="BookSync">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:StringToImageConverter x:Key="StringToImageConverter" />
+            <conv:TrueToFalseConverter x:Key="TrueToFalseConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+        <StackLayout>
+            <ScrollView IsVisible="{Binding HasContacts}" VerticalOptions="FillAndExpand">
+                <ListView  x:Name="ContactsListView" ItemsSource="{Binding Contacts}" 
+                    RowHeight="60" 
+                    SeparatorColor="#d3d3d3"
+                    Margin="10, 10, 5, 10"
+                    ItemTapped="Handle_ItemTapped"
+                    IsVisible="{Binding HasContacts}"
+                    VerticalOptions="FillAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowSpacing="10" ColumnSpacing="10" VerticalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Frame Grid.Row="0" Padding="0" HasShadow="false" WidthRequest="60">
+                                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                            <controls:CircleImage Grid.Column="0"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="Start"
+                                                BorderColor="#D32F2F" 
+                                                Aspect="AspectFill" BorderThickness="0"
+                                                Source="{Binding PhoneImageBase64, Converter={StaticResource StringToImageConverter}}"
+                                                IsVisible="{Binding ShowFacebookImage}" >
+                                           
+                                            <controls:CircleImage.WidthRequest>
+                                              <OnPlatform x:TypeArguments="x:Double"
+                                                iOS="55"
+                                                Android="55"
+                                                WinPhone="75">
+                                                </OnPlatform>
+                                             </controls:CircleImage.WidthRequest>
+                                            <controls:CircleImage.HeightRequest>
+                                              <OnPlatform x:TypeArguments="x:Double"
+                                                iOS="55"
+                                                Android="55"
+                                                WinPhone="75">
+                                                </OnPlatform>
+                                             </controls:CircleImage.HeightRequest>
+                                            </controls:CircleImage>
+                                            <ActivityIndicator x:Name="syncingActivityIndicator" IsVisible="{Binding IsSyncing}" 
+                                                               IsRunning="{Binding IsSyncing}" 
+                                                               WidthRequest="55" HeightRequest="55" Color="Blue"
+                                                               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></ActivityIndicator>
+                                            <Image x:Name="syncResultImage" Source="{Binding SyncResultImage}" IsVisible="{Binding SyncCompleted}" 
+                                                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Image>
+                                        </StackLayout>
+                                    </Frame>
+                                   <!-- <Frame.WidthRequest>
+                                      <OnPlatform x:TypeArguments="x:Double"
+                                        iOS="70"
+                                        Android="70"
+                                        WinPhone="70">
+                                        </OnPlatform>
+                                    </Frame.WidthRequest>
+-->
+                                    <StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="FillAndExpand" Padding="10">
+                                        <Label Text="{Binding PhoneName}"   LineBreakMode="TailTruncation"></Label>
+                                        <Label Text="{Binding FacebookName}" FontSize="Small" LineBreakMode="TailTruncation"></Label>
+                                    </StackLayout>
+
+                                    <Frame Grid.Column="2" Padding="0" HasShadow="false">
+                                        <controls:CircleImage 
+                                            x:Name="circleFacebook"
+                                            Grid.Column="2"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            BorderColor="#D32F2F" 
+                                            Aspect="AspectFill" BorderThickness="0"
+                                            Source="{Binding FacebookProfileImage}">
+                                        
+                                        <controls:CircleImage.WidthRequest>
+                                          <OnPlatform x:TypeArguments="x:Double"
+                                            iOS="55"
+                                            Android="55"
+                                            WinPhone="75">
+                                            </OnPlatform>
+                                         </controls:CircleImage.WidthRequest>
+                                        <controls:CircleImage.HeightRequest>
+                                          <OnPlatform x:TypeArguments="x:Double"
+                                            iOS="55"
+                                            Android="55"
+                                            WinPhone="75">
+                                            </OnPlatform>
+                                         </controls:CircleImage.HeightRequest>
+                                        </controls:CircleImage>
+
+                                        <Frame.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double"
+                                            iOS="55"
+                                            Android="55"
+                                            WinPhone="75">
+                                            </OnPlatform>
+                                        </Frame.WidthRequest>
+                                    </Frame>    
+
+                                    <Frame HasShadow="false" WidthRequest="12" HeightRequest="12" Grid.Column="3" Padding="2, 0, 0 ,0">
+                                    <BoxView IsVisible="{Binding IsSelected}" Grid.Column="3" 
+                                        WidthRequest="12" HeightRequest="12" Color="#1F6CBC" />
+                                </Frame>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+            <StackLayout x:Name="HasNoContactsLayout" 
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="StartAndExpand"
+                         IsVisible="{Binding HasContacts, Converter={StaticResource TrueToFalseConverter}}">
+                <Image Source="ic_sentiment_dissatisfied.png" HorizontalOptions="CenterAndExpand" Margin="10, 50, 10, 10"  IsVisible="{Binding HasContacts, Converter={StaticResource TrueToFalseConverter}}"></Image>
+                <Label x:Name="infoLabel" Text="{Binding Information}" HorizontalOptions="CenterAndExpand" IsVisible="{Binding HasContacts, Converter={StaticResource TrueToFalseConverter}}"></Label>
+                <Label x:Name="subInfoLabel" Text="{Binding SubInformation}" IsVisible="{Binding HasUnMatchedContacts}" HorizontalOptions="CenterAndExpand"></Label>
+                <Button x:Name="ShowUnMatchedButton" 
+                        Text="{Binding UnmatchedButtonText}" Command="{Binding UnmatchedButtonCommand}"
+                        IsVisible="{Binding HasUnMatchedContacts}"></Button>
+                <Button x:Name="ShowAutoMatchButton" Text="{Binding AutoMatchButtonText}" 
+                        Command="{Binding AutoMatchButtonCommand}" IsVisible="{Binding HasUnMatchedContacts}"></Button>
+            </StackLayout>
+            <Button x:Name="syncButton" Text="Sync" Command="{Binding SyncCommand}" 
+                    IsVisible="{Binding HasContactsToSync}" VerticalOptions="EndAndExpand"/>
+            <Button x:Name="cancelSyncButton" Text="Cancel" Command="{Binding CancelSyncCommand}" 
+                    IsVisible="{Binding IsSyncing}" VerticalOptions="EndAndExpand"/>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

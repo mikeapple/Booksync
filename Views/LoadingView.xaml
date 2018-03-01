@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="BookSync.Views.LoadingView">
+	<ContentPage.Content>
+        <StackLayout x:Name="mainContentStackLayout" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Image HorizontalOptions="Center" VerticalOptions="Center" Source="booksyncsplash128x128.png"></Image>
+                <Label HorizontalOptions="CenterAndExpand" Text="{Binding LoadingText}"></Label>
+                <ActivityIndicator IsRunning="{Binding IsRunning}" IsVisible="{Binding IsRunning}"></ActivityIndicator>
+                <Button HorizontalOptions="Center" Text="Retry" Command="{Binding RetryCommand}" IsVisible="{Binding ShowRetry}"></Button>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ext="clr-namespace:BookSync.Extensions"
+    xmlns:conv="clr-namespace:BookSync.Converters"
+    xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+    x:Class="BookSync.Views.UnMatchedContactsView" Title="Unmatched Contacts">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:StringToImageConverter x:Key="StringToImageConverter" />
+            <conv:TrueToFalseConverter x:Key="TrueToFalseConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	<ContentPage.Content>
+        <StackLayout>
+            <ListView  x:Name="listView" ItemsSource="{Binding UnMatchedContacts, Mode=TwoWay}" 
+                RowHeight="60" 
+                SeparatorColor="#d3d3d3"
+                Margin="10"
+                ItemTapped="Handle_ItemTapped"
+                IsVisible="{Binding HasContacts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowSpacing="10" ColumnSpacing="10" VerticalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Grid.Row="0" Padding="0" HasShadow="false">
+                                    <controls:CircleImage Grid.Column="0"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Start"
+                                        BorderColor="#D32F2F" 
+                                        Aspect="AspectFill" BorderThickness="0"
+                                        Source="{Binding PhoneImageBase64, Converter={StaticResource StringToImageConverter}}">
+                                   
+                                    <controls:CircleImage.WidthRequest>
+                                      <OnPlatform x:TypeArguments="x:Double"
+                                        iOS="55"
+                                        Android="55"
+                                        WinPhone="75">
+                                        </OnPlatform>
+                                     </controls:CircleImage.WidthRequest>
+                                    <controls:CircleImage.HeightRequest>
+                                      <OnPlatform x:TypeArguments="x:Double"
+                                        iOS="55"
+                                        Android="55"
+                                        WinPhone="75">
+                                        </OnPlatform>
+                                     </controls:CircleImage.HeightRequest>
+                                    </controls:CircleImage>
+                                </Frame>
+                                <Frame.WidthRequest>
+                                  <OnPlatform x:TypeArguments="x:Double"
+                                    iOS="55"
+                                    Android="55"
+                                    WinPhone="75">
+                                    </OnPlatform>
+                                </Frame.WidthRequest>
+
+                                <StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="FillAndExpand" Padding="10">
+                                    <Label Text="{Binding PhoneName}" LineBreakMode="TailTruncation"></Label>
+                                    <Label Text="{Binding FacebookName}" LineBreakMode="TailTruncation"></Label>
+                                </StackLayout>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout x:Name="HasNoContactsLayout" 
+                         HorizontalOptions="CenterAndExpand" 
+                         VerticalOptions="StartAndExpand"
+                         IsVisible="{Binding HasContacts, Converter={StaticResource TrueToFalseConverter}}">
+                <Image Source="ic_sentiment_very_satisfied.png" HorizontalOptions="CenterAndExpand" Margin="10, 50, 10, 10"></Image>
+                <Label x:Name="infoLabel" Text="All your contacts are matched." HorizontalOptions="CenterAndExpand"></Label>
+                <Label x:Name="subInfoLabel" Text="{Binding SubInformation}" IsVisible="{Binding HasContactsToSync}" HorizontalOptions="CenterAndExpand"></Label>
+                 <Button x:Name="ShowToSyncButton" 
+                            Text="Sync Contacts" Command="{Binding SyncButtonCommand}"
+                            IsVisible="{Binding HasContactsToSync}"></Button>
+            </StackLayout>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

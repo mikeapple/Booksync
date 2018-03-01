@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:local="clr-namespace:BookSync.Views"
+    xmlns:markup="clr-namespace:BookSync.Extensions"
+    xmlns:custom="clr-namespace:BookSync.CustomControls"
+    x:Class="BookSync.Views.LoginPage">
+	<ContentPage.Content>
+        <StackLayout x:Name="containerStackLayout" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout x:Name="mainContentStackLayout" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Image HorizontalOptions="Center" VerticalOptions="Center" Source="booksyncsplash128x128.png"></Image>
+                <custom:FacebookLoginButton />
+            </StackLayout>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>
